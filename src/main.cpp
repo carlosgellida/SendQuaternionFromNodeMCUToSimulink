@@ -57,7 +57,11 @@ void sendEuler(MPU9250 &mpu){
 void setup() {
   Serial.begin(115200);
   Wire.begin();
-  inicializeMPU9250(mpu); 
+  inicializeMPU9250(mpu);
+
+  loadCalibration(); // Charge calibration data from EPROM 
+  mpu.verbose(false);
+  delay(500);
 }
 
 void loop() {
