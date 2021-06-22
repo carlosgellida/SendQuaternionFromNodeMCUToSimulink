@@ -66,7 +66,7 @@ void setup() {
 
 void loop() {
   uint32_t now = micros();
-    if(now - prev >= 10000){ // Send each 10 ms
+    if(now - prev >= 10000){ // Send each 10ms
       while(true){
       if (mpu.update()) { // If mpu is ready, continue
         prev = micros();
