@@ -5,7 +5,7 @@ uint32_t prev = 0;
 byte Quaternion[6] ; 
 
 byte quat2Byte(float q){
-  return byte(q*255) ; 
+  return byte(q*127+127) ; 
 }
 byte euler2Byte(float e){
   return byte((e+180)*255/360) ; 
@@ -14,10 +14,10 @@ byte euler2Byte(float e){
 void sendQuaternionByte(MPU9250 &mpu){
   byte Quaternion[6] ;
   Quaternion[0] = 'R'; 
-  Quaternion[1] = quat2Byte(mpu.getQuaternionX()) ; 
-  Quaternion[2] = quat2Byte(mpu.getQuaternionY()) ; 
-  Quaternion[3] = quat2Byte(mpu.getQuaternionZ()) ;
-  Quaternion[4] = quat2Byte(mpu.getQuaternionW());
+  Quaternion[1] = quat2Byte(mpu.getQuaternionW());
+  Quaternion[2] = quat2Byte(mpu.getQuaternionX()) ; 
+  Quaternion[3] = quat2Byte(mpu.getQuaternionY()) ; 
+  Quaternion[4] = quat2Byte(mpu.getQuaternionZ()) ;
   Quaternion[5] = '\n' ; 
   Serial.write(Quaternion, 6); // 4 es el número de bytes que se envían
 }
@@ -70,8 +70,8 @@ void loop() {
       while(true){
       if (mpu.update()) { // If mpu is ready, continue
         prev = micros();
-        //sendQuaternionByte(mpu); // Read and send current quaternion
-        sendRollPitchYawByte(mpu) ; // Read and send current Euler-Angles
+        sendQuaternionByte(mpu); // Read and send current quaternion
+        //sendRollPitchYawByte(mpu) ; // Read and send current Euler-Angles
         break ; 
     } //end if
     } // end while
